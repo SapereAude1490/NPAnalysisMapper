@@ -18,7 +18,14 @@
     <p style="color: var(--bs-teal);margin: 15px;">Import your files here:</p>
     <div class="container">
         <div class="row">
-            <div class="col-md-6" style="padding-right: 396px;margin-right: 0px;border-right-color: var(--bs-secondary-color);"><button class="btn btn-primary" type="button" style="color: var(--bs-btn-disabled-color);border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;">Import .csv File(s)</button><button class="btn btn-primary" type="button" style="padding-right: 43px;text-align: center;border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;position: sticky;">Process Data</button></div>
+            <div class="col-md-6" style="padding-right: 396px;margin-right: 0px;border-right-color: var(--bs-secondary-color);">
+                <form>
+                    {% csrf_token %}
+                    <button id="buttonImportCsv" class="btn btn-primary" type="button" style="color: var(--bs-btn-disabled-color);border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;">Import .csv File(s)</button>
+                </form>
+                <button class="btn btn-primary" type="button" style="padding-right: 43px;text-align: center;border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;position: sticky;">Process Data</button>
+            </div>
+            <!-- <div class="col-md-6" style="padding-right: 396px;margin-right: 0px;border-right-color: var(--bs-secondary-color);"><button id="buttonImportCsv" class="btn btn-primary" type="button" style="color: var(--bs-btn-disabled-color);border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;">Import .csv File(s)</button><button class="btn btn-primary" type="button" style="padding-right: 43px;text-align: center;border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;position: sticky;">Process Data</button></div> -->
             <div class="col-md-6">
                 <div class="table-responsive">
                     <table class="table">
@@ -40,7 +47,11 @@
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Include Bootstrap's bootstrap.min.js -->
+    <!-- <script src="assets/bootstrap/js/bootstrap.min.js"></script> -->
+    <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+    <!-- Include my custom JavaScript file, buttonsLogic.js -->
+    <script src="{% static 'home/js/buttonsLogic.js' %}"></script>
 </body>
 
 </html>
