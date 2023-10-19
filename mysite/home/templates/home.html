@@ -1,57 +1,22 @@
+{% extends "base.html" %}
+{% load plotly_dash %}
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
+
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>home</title>
-    <!-- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
-</head>
+{% block dashapp %}
+<div style="border: 2px solid blue;"> 
+<!--<div>-->
+    <h1>Plotly dash app.</h1>
+    {%plotly_app name="SimpleExample" ratio=.45 %}
+    <!-- If you don't add a 'ratio=1, it doesn't display properly. Don't know why. 
+        Also,The ratio value represents the width relative to the height, so a ratio of 1.5 means the width is 1.5 times the height. 
+        In other words, it's a 3:2 aspect ratio. -->
+</div>
+{% endblock %}
 
-<body style="border-color: var(--bs-secondary-bg);background: var(--bs-body-color);">
-    <header>
-        <h1 style="color: var(--bs-teal);margin: 15px;">NP Analysis WebApp</h1>
-    </header>
-    <p style="color: var(--bs-teal);margin: 15px;">Import your files here:</p>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6" style="padding-right: 396px;margin-right: 0px;border-right-color: var(--bs-secondary-color);">
-                <form>
-                    {% csrf_token %}
-                    <button id="buttonImportCsv" class="btn btn-primary" type="button" style="color: var(--bs-btn-disabled-color);border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;">Import .csv File(s)</button>
-                </form>
-                <button class="btn btn-primary" type="button" style="padding-right: 43px;text-align: center;border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;position: sticky;">Process Data</button>
-            </div>
-            <!-- <div class="col-md-6" style="padding-right: 396px;margin-right: 0px;border-right-color: var(--bs-secondary-color);"><button id="buttonImportCsv" class="btn btn-primary" type="button" style="color: var(--bs-btn-disabled-color);border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;">Import .csv File(s)</button><button class="btn btn-primary" type="button" style="padding-right: 43px;text-align: center;border-right-color: var(--bs-btn-bg);background: var(--bs-teal);width: 149px;position: sticky;">Process Data</button></div> -->
-            <div class="col-md-6">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="background: var(--bs-secondary-color);color: var(--bs-table-bg);">Imported Files</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="background: var(--bs-table-striped-bg);color: var(--bs-table-bg);">File 1</td>
-                            </tr>
-                            <tr>
-                                <td style="background: var(--bs-table-striped-bg);color: var(--bs-table-bg);">File 2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Include Bootstrap's bootstrap.min.js -->
-    <!-- <script src="assets/bootstrap/js/bootstrap.min.js"></script> -->
-    <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
-    <!-- Include my custom JavaScript file, buttonsLogic.js -->
-    <script src="{% static 'home/js/buttonsLogic.js' %}"></script>
-</body>
-
-</html>
+{% block loadingbardash %}
+    {% plotly_app name="LoadingBar" ratio=1 %}
+{% endblock %}

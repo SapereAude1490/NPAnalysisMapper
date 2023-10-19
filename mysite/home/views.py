@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
+# These apps are stored separately in the DjangoDash folder.
+from DjangoDash.dashapps import app
+from DjangoDash.loadingbardash import appBar
 
 # Create your views here.
 
