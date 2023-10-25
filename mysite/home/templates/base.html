@@ -7,49 +7,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>NP Mapper</title>
+    <title>NP Process Webapp</title>
     <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap"> 
+    <link rel="stylesheet" href="{% static 'home/css/bs-theme-overrides.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
 </head>
 
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>NP Mapping Analysis WebApp</h1>
-            </div>
+<!-- This is the Navbar -->
+
+<body style="--bs-bg-opacity: .5;">
+    <nav class="navbar navbar-expand-md bg-primary">
+        <div class="container-fluid" style="--bs-bg-opacity: .5;">
+            <a style="color:#eef0ff;" class="navbar-brand" href="#"><strong><span>NP Mapping Analysis WebApp</span></strong></a>
+            <form>
+                {% csrf_token %}
+                <button id="displayForm"  class="btn btn-info" type="button" style="margin-top: 2px;margin-right: 10px;">Import Experimental Data</button>
+            </form>
+            <form>
+                {% csrf_token %}
+                <button id="viewData" class="btn btn-info" type="button" style="margin-top: 2px;">View Processed Data</button>
+            </form>
+            <div class="collapse navbar-collapse" id="navcol-1"></div>
         </div>
-        <!-- Buttons -->
-        <div class="row">
-            <div class="col-md-6 col-xl-2 offset-xl-0">
-                <div class="row">
-                    <div class="col">
-                        <form>
-                            {% csrf_token %}
-                            <button id="buttonImportCsv" class="btn btn-primary" type="button" style="margin-top: 2px;">Import .csv</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 2px;">
-                    <div class="col" style="margin-top: 2px;">
-                        <button class="btn btn-primary" type="button" style="margin-top: 2px;">Process</button>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 2px;">
-                    <div class="col" style="margin-top: 2px;">
-                        <button class="btn btn-primary" type="button" style="margin-top: 2px;">Display</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-xl-12">
-                {% block dashapp %}{% endblock %}
-                {% block loadingbardash %}{% endblock %}
-            </div>
-        </div>
-    </div>
-    <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'home/js/buttonsLogic.js' %}"></script>
-    <!-- <script src="assets/js/bold-and-dark.js"></script> -->
+    </nav>
+
+{% block content %}
+{% endblock %}
+
 </body>
 
 </html>
+
+<script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'home/js/bold-and-dark.js' %}"></script>
+<script src="{% static 'home/js/buttonsLogic.js' %}"></script>

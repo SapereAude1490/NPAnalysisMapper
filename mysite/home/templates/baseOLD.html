@@ -1,0 +1,37 @@
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>NP Mapping Analysis WebApp</h1>
+            </div>
+        </div>
+        <!-- Buttons -->
+        <div class="row">
+            <div class="col-md-6 col-xl-2 offset-xl-0">
+                <div class="row">
+                    <div class="col">
+                        <form>
+                            {% csrf_token %}
+                            <button id="importData" class="btn btn-primary" type="button" style="margin-top: 2px;">Import Experimental Data</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 2px;">
+                    <div class="col" style="margin-top: 2px;">
+                        <button id="viewData" class="btn btn-primary" type="button" style="margin-top: 2px;">Explore Processed Data</button>
+                    </div>
+                </div>
+                <!---
+                <div class="row" style="margin-top: 2px;">
+                    <div class="col" style="margin-top: 2px;">
+                        <button class="btn btn-primary" type="button" style="margin-top: 2px;">Display</button>
+                    </div>
+                </div>
+                -->
+            </div>
+            <div class="col-md-12 col-xl-12">
+                {% block dashapp %}{% endblock %}
+                {% block loadingbardash %}{% endblock %}
+            </div>
+        </div>
+    </div>

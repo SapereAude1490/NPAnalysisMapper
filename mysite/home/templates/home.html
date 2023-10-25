@@ -1,22 +1,19 @@
-{% extends "base.html" %}
-{% load plotly_dash %}
+<!DOCTYPE html>
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
 
-<!DOCTYPE html>
+<body>
 
-{% block dashapp %}
-<div style="border: 2px solid blue;"> 
-<!--<div>-->
-    <h1>Plotly dash app.</h1>
-    {%plotly_app name="SimpleExample" ratio=.45 %}
-    <!-- If you don't add a 'ratio=1, it doesn't display properly. Don't know why. 
-        Also,The ratio value represents the width relative to the height, so a ratio of 1.5 means the width is 1.5 times the height. 
-        In other words, it's a 3:2 aspect ratio. -->
-</div>
-{% endblock %}
+    <table>
+        <tr>
+            <th>Experiment Name</th>
+            <th>Experiment Description</th>
+            <th>.csv Files</th>
+        </tr>
+        <tr>
+        {% for experiment in form %}
+            <td>{{ experiment }}</td>
+        {% endfor %}
+        </tr>
 
-{% block loadingbardash %}
-    {% plotly_app name="LoadingBar" ratio=1 %}
-{% endblock %}
+</body>

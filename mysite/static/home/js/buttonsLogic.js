@@ -1,13 +1,15 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const buttonImportCsv = document.getElementById('buttonImportCsv');
+console.log('buttonsLogic.js loaded');
 
-    if (buttonImportCsv) {
-        buttonImportCsv.addEventListener('click', function() {
+document.addEventListener("DOMContentLoaded", function() {
+    const importDataButton = document.getElementById('displayForm');
+
+    if (importDataButton) {
+        importDataButton.addEventListener('click', function() {
             // Get the CSRF token from the cookie
             const csrfToken = getCookie('csrftoken');
 
             // Create a POST request with the CSRF token in the headers
-            fetch('/importCsvButtonClicked/', {
+            fetch('/displayForm/', {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrfToken, // Include the CSRF token in the request headers

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Import Experiment Data</title>
+</head>
+<body>
+    {% block content %}
+    <h1>Import Experiment Data</h1>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name:</th>
+                <th>Description:</th>
+                <th>.csv Files:</th>
+                <th></th>  {# An unnamed column for the button #}
+                <th></th>  {# An unnamed column for the button #}
+            </tr>
+        </thead>
+        <!-- This is the part of the table with the form to upload a new experiment -->
+        <tbody>
+            <tr>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <td>{{ form.name }}</td>
+                    <td>{{ form.description }}</td>
+                    <td>{{ csv_form.file }}</td>
+                    <td class="text-center">
+                        <button id="submitForm" class="btn btn-success" type="submit">Create New Experiment.</button>
+                    </td>
+                </form>
+            </tr>    
+        </tbody>
+        <!-- This is the part of the table with the already uploaded experiments -->
+        <tbody>
+            {% for experiment in experiments %}
+            <tr>
+                <td>{{ experiment.name }}</td>
+                <td>{{ experiment.description }}</td>
+                <td></td>
+                <td class="text-center">
+                    <form method="post" action="{% url 'delete_experiment' experiment.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="experiment_id" value="{{ experiment.id }}">
+                        <button id="removeEntry" class="btn btn-danger" type="submit">Delete Experiment</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}    
+        </tbody>
+        </table>
+    </div>
+    {% endblock %}
+</body>
+</html>
+
