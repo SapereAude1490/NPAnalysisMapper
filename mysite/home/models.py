@@ -11,6 +11,7 @@ def experiment_csv_upload_path(instance, filename):
 class Experiment(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
+    processed = models.BooleanField(default=False) # True if the experiment has been processed
     numpy_file = models.FileField(upload_to='datasets/numpy_files/')
 
 class CSVFile(models.Model):

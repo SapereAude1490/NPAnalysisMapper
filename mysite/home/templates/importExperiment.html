@@ -5,12 +5,40 @@
 <html>
 
 <head>
-    <title>Import Experiment Data</title>
+    <title>Experiments</title>
 </head>
 <body>
     {% block content %}
-    <h1>Import Experiment Data</h1>
-
+    <h1>Experiments</h1>
+    <!-- This part handles the messaging 
+    I'm using flexbox -->
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="d-flex justify-content-around">
+                <div class="alert alert-success text-center" role="alert" style="display: flex; justify-content: center; align-items: center;">
+                    <span><strong>{{ message }}</strong></span>
+                </div>
+            </div>
+        {% elif message.tags == 'warning' %}
+            <div class="d-flex justify-content-around">
+                <div class="alert alert-warning text-center" role="alert" style="margin-left: 440px;margin-right: 440px;">
+                    <span><strong>{{ message }}</strong></span>
+                </div>
+            </div>
+        {% elif message.tags == 'error' %}
+            <div class="d-flex justify-content-around">
+                <div class="alert alert-danger text-center" role="alert" style="margin-left: 440px;margin-right: 440px;">
+                    <span><strong>{{ message }}</strong></span>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-around">
+                <div class="alert alert-info text-center" role="alert" style="margin-left: 440px;margin-right: 440px;">
+                    <span><strong>{{ message }}</strong></span>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -31,7 +59,7 @@
                     <td>{{ form.description }}</td>
                     <td>{{ csv_form.file }}</td>
                     <td class="text-center">
-                        <button id="submitForm" class="btn btn-success" type="submit">Create New Experiment.</button>
+                        <button id="submitForm" class="btn btn-success" type="submit">Create New Experiment</button>
                     </td>
                 </form>
             </tr>    

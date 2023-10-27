@@ -26,15 +26,14 @@ def home_view(request):
         form = ExperimentForm(request.POST)
         csv_form = CSVFilesForm(request.POST, request.FILES)
         if form.is_valid() and csv_form.is_valid():
-            try:
-                experiment = form.save()  # Save the experiment and get the instance
-                csv_files = csv_form.cleaned_data['file']  # Get the uploaded CSV files
-                for csv_file in csv_files:
-                    CSVFile.objects.create(experiment=experiment, file=csv_file)  # Associate the CSV files with the experiment
-                messages.success(request, 'Experiment created successfully.')
-                return redirect('home_view')
-            except IntegrityError:
-                messages.error(request, 'An experiment with that name already exists.')
+            experiment = form.save()  # Save the experiment and get the instance
+            csv_files = csv_form.cleaned_data['file']  # Get the uploaded CSV files
+            for csv_file in csv_files:
+                CSVFile.objects.create(experiment=experiment, file=csv_file)  # Associate the CSV files with the experiment
+            messages.success(request, 'Experiment created successfully')
+            return redirect('home_view')
+        else:
+            messages.error(request, 'Form is not valid')
     else:
         # If it's a GET request or the form is not valid, display the form
         form = ExperimentForm()
@@ -48,5 +47,19 @@ def delete_experiment(request, experiment_id):
     experiment_folder = os.path.join('media/datasets/csv_files/', experiment.name)
     shutil.rmtree(experiment_folder)  # Delete the experiment folder and all its contents
     experiment.delete()
-    messages.success(request, 'Entry Deleted')
+    messages.warning(request, 'Entry Deleted')
     return redirect('home_view')
+
+def process_data_view(request):
+    experiments = Experiment.objects.all()
+    return render(request, 'displayProcessedData.html', {'experiments': experiments})
+
+def process_data_button(request, experiment_id):
+    experiment = Experiment.objects.get(id=experiment_id)
+    experiment_folder = os.path.join('media/datasets/csv_files/', experiment.name)
+    numpy_file = os.path.join('media/datasets/numpy_files/', experiment.name + '.npy')
+    if not os.path.exists(numpy_file):
+        # If the numpy file doesn't exist, process the data
+        import data_processing
+        data_processing.process_data(experiment, experiment_folder, numpy_file)
+    return redirect('process_data_view')

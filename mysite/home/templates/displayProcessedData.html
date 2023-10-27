@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Experiments</title>
+</head>
+<body>
+    {% block content %}
+    <h1>Experiments</h1>
+    <!-- This part handles the messaging 
+    I'm using flexbox -->
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name:</th>
+                <th>Description:</th>
+                <th></th>  {# An unnamed column for the button #}
+                <th></th>  {# An unnamed column for the button #}
+                <th></th>  {# An unnamed column for the button #}
+            </tr>
+        </thead>
+        <!-- This is the part of the table with the already uploaded experiments -->
+        <tbody>
+            {% for experiment in experiments %}
+            <tr>
+                <td>{{ experiment.name }}</td>
+                <td>{{ experiment.description }}</td>
+                <td class="text-center">
+                    <form method="post" action="{% url 'process_data_button' experiment.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="experiment_id" value="{{ experiment.id }}">
+                        <button id="removeEntry" class="btn btn-warning" type="submit" {% if experiment.processed %}disabled{% endif %}>Process Data</button>
+                    </form>
+                </td>
+                <td class="text-center">
+                    <form method="post" action="{% url 'delete_experiment' experiment.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="experiment_id" value="{{ experiment.id }}">
+                        <button id="removeEntry" class="btn btn-info" type="submit" {% if not experiment.processed %}disabled{% endif %}>Display Images</button>
+                    </form>
+                </td>
+                <td class="text-center">
+                    <form method="post" action="{% url 'delete_experiment' experiment.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="experiment_id" value="{{ experiment.id }}">
+                        <button id="removeEntry" class="btn btn-success" type="submit" {% if not experiment.processed %}disabled{% endif %}>Download Images</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}    
+        </tbody>
+        </table>
+    </div>
+    {% endblock %}
+</body>
+</html>
+
