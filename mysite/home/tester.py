@@ -81,41 +81,44 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from data_processing import process_file
+from scipy import signal
+import poisson, detection
 
-# Create a numpy array with 1000 rows and 2 columns
-# The first column will go from 0 to 1000
-# Second column will be all ones
-array = np.ones((1000,2))
-array[:,0] = np.linspace(0,1000,1000)
-# Pick a few random numbers in the second column and add a random number from 10 to 100 to them
-array[np.random.randint(0,1000,10),1] += np.random.randint(10,100,10)
-# Define a simple 1D kernel
-kernel = np.array([0.05,0.15,0.4,0.3,0.1])
-# Convolve the second column of the array with the kernel
-array[:,1] = np.convolve(array[:,1],kernel,mode='same')
+# Define the path to the file
+file_path = "D:/DjangoCoding/NPAnalysisMapper/mysite/generated/linescan_100.csv"
 
-# Save this array as a .csv file. This is the file that will be read in by the process_file function
-np.savetxt('test.csv', array, delimiter=',')
+# Read the file into a numpy array
+array = np.genfromtxt(file_path, delimiter=',', skip_header=4, skip_footer=3)
+filtered_array = signal.medfilt(array[:, 1], 25)
 
-# Get the path to the file
-file_path = 'test.csv'
+if np.mean(filtered_array) < 10:
+    epsilon = 0.5
+else:
+    epsilon = 0
+
+Sc, Sd = poisson.currie(filtered_array, epsilon=epsilon)
+
+# detections, labels, regions = detection.accumulate_detections(array[:,1], Sc, Sd, integrate=True)
 
 # Call the process_file function
 detections, labels, regions = process_file(file_path, convertToCounts=False)
 
-# Display the results
-print("Detections:", detections)
-print("Regions:", regions)
-print(len(labels))
-
 # Crop the array. Remove the top 4 rows and the bottom 3 rows
-array = array[4:-3,:]
+# array = array[4:-3,:]
 
 plt.plot(array[:, 0], array[:, 1])
+plt.plot(filtered_array, 'b--')
+plt.plot(Sc, 'r--')
+plt.plot(Sd, 'g--')
 plt.plot(array[regions[:, 0], 0], array[regions[:, 0], 1], 'ro')
 plt.plot(array[regions[:, 1], 0], array[regions[:, 1], 1], 'go')
+plt.legend(['Raw Data', 'Filtered Data', 'Sc', 'Sd', 'Start', 'End'])
 
 plt.show()
 
-print("Detections:", detections)
-print("Regions:", regions)
+#print("Detections:", detections)
+#print("Regions:", regions)
+
+print('Mean:', np.mean(filtered_array))
+print('Sc:', Sc)
+print('Sd:', Sd)

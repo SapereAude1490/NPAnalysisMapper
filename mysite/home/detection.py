@@ -3,7 +3,7 @@ from typing import Dict, Tuple
 
 import numpy as np
 
-from lib import spcalext
+from .lib import spcalext
 
 def _contiguous_regions(x: np.ndarray, limit: float | np.ndarray) -> np.ndarray:
     """Returns start and end points of regions in x that are greater than limit.

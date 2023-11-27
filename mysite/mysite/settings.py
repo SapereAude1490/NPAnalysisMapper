@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Since I'm going with Daphne and ASGI, I don't need the following two apps.
+    # 'channels',
+    # 'django_eventstream',
     
     # This is from the Django Plotly Dash documentation. 
     'django_plotly_dash.apps.DjangoPlotlyDashConfig', 
@@ -56,6 +60,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Required for the django_eventstreamASGI_APPLICATION = 'your_project.asgi.application' 
+    'django_grip.GripMiddleware',
 
     'django_plotly_dash.middleware.BaseMiddleware', # This is the middleware that allows the use of Dash within Django (for the header and footer).
 ]
@@ -129,8 +136,14 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'static',
 ]
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Media (uploaded files)
 
@@ -141,3 +154,10 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#  Tells Django to use the ASGI application defined in asgi.py
+ASGI_APPLICATION = 'mysite.asgi.application'
+
+
+FILE_UPLOAD_TEMP_DIR = 'D:/DjangoCoding/TMP Files'
+DATA_UPLOAD_MAX_NUMBER_FILES = 1000

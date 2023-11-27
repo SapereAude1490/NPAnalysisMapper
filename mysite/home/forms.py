@@ -33,3 +33,13 @@ class CSVFilesForm(forms.ModelForm):
 
     file = MultipleCSVFileField()  # Use the custom MultipleFileField for the csv_files field
 
+class ProcessForm(forms.Form):
+    experiment = forms.ModelChoiceField(queryset=Experiment.objects.all())
+    gasBlankStart = forms.IntegerField()
+    gasBlankEnd = forms.IntegerField()
+    numberOfPixels = forms.IntegerField()
+    calCurve = forms.BooleanField()
+    npSize = forms.FloatField()
+    signalMedian = forms.FloatField()
+    slope = forms.FloatField()
+    intercept = forms.FloatField()

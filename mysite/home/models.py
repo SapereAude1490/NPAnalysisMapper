@@ -13,6 +13,17 @@ class Experiment(models.Model):
     description = models.TextField()
     processed = models.BooleanField(default=False) # True if the experiment has been processed
     numpy_file = models.FileField(upload_to='datasets/numpy_files/')
+    # These fields are for the data processing
+    gasBlankStart = models.IntegerField(default=0)
+    gasBlankEnd = models.IntegerField(default=0)
+    numberOfPixels = models.IntegerField(default=20)
+    calCurve = models.BooleanField(default=False)
+    npSize = models.FloatField(default=0)
+    signalMedian = models.FloatField(default=0)
+    slope = models.FloatField(default=0)
+    intercept = models.FloatField(default=0)
+    corrupted = models.BooleanField(default=False)
+    convertedToCounts = models.BooleanField(default=False)
 
 class CSVFile(models.Model):
     file = models.FileField(upload_to=experiment_csv_upload_path)
