@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4eb0yr(!v$t2$gqg7@)%_t^ytud!8=2a#f5e&s8@_f_afh$7o^'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-4eb0yr(!v$t2$gqg7@)%_t^ytud!8=2a#f5e&s8@_f_afh$7o^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
 
 
 # Application definition
@@ -54,6 +54,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -158,6 +159,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #  Tells Django to use the ASGI application defined in asgi.py
 ASGI_APPLICATION = 'mysite.asgi.application'
 
-
-FILE_UPLOAD_TEMP_DIR = 'D:/DjangoCoding/TMP Files'
+# Use platform-agnostic temporary directory
+FILE_UPLOAD_TEMP_DIR = os.environ.get('FILE_UPLOAD_TEMP_DIR', os.path.join(os.path.dirname(BASE_DIR), 'tmp'))
 DATA_UPLOAD_MAX_NUMBER_FILES = 1000
